@@ -31,8 +31,8 @@ public class Postagem {
 	@Size(max = 1000)
 	private String texto;
 	
-	@UpdateTimestamp //ao criar uma postagem ele gera uma data e hora em tempo real
-	private LocalDateTime data;
+	@UpdateTimestamp //ao criar uma postagem ele gera uma datAtual e hora em tempo real
+	private LocalDateTime dataAtual;
 	
 	
 	private String foto;
@@ -70,13 +70,13 @@ public class Postagem {
 	}
 
 
-	public LocalDateTime getData() {
-		return data;
+	public LocalDateTime getdatAtual() {
+		return dataAtual;
 	}
 
 
-	public void setData(LocalDateTime data) {
-		this.data = data;
+	public void setdatAtual(LocalDateTime datAtual) {
+		this.dataAtual = datAtual;
 	}
 
 
