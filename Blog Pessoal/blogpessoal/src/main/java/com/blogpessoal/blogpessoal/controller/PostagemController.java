@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.blogpessoal.blogpessoal.model.Postagem;
 import com.blogpessoal.blogpessoal.repository.PostagemRepository;
+import com.blogpessoal.blogpessoal.repository.TemaRepository;
 
 @RestController //essa classe é um controlador
 @RequestMapping ("/postagens")
@@ -29,7 +30,8 @@ public class PostagemController {
 	
 	@Autowired //garante q todos os serviços postagens repository sejam administradas pelo controller
 	private PostagemRepository repository;
-	
+	@Autowired
+	private TemaRepository temaRepository;
 	@GetMapping
 	public ResponseEntity<List<Postagem>> GetAll(){
 		return ResponseEntity.ok(repository.findAll());
@@ -48,7 +50,21 @@ public class PostagemController {
 	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
+		if(temaRepository.existsById(postagem.getTema().getId()))
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	}
+	
+	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
+		if(repository.existsById(postagem.getId())) {
+			
+			if(temaRepository.existsById(postagem.getTema().getId()))
+				return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+			
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)

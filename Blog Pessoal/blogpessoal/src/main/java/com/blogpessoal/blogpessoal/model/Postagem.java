@@ -7,11 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity //informa que a classe é uma entidade e será mapeada como tabela no banco
@@ -36,12 +40,29 @@ public class Postagem {
 	
 	
 	private String foto;
-
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Tema tema;
+	
+	
 
 	//é necessário criar os getters and setters para
 	
+	
+	
 	public long getId() {
 		return id;
+	}
+
+
+	public Tema getTema() {
+		return tema;
+	}
+
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 
 
@@ -70,13 +91,13 @@ public class Postagem {
 	}
 
 
-	public LocalDateTime getdatAtual() {
+	public LocalDateTime getdataAtual() {
 		return dataAtual;
 	}
 
 
-	public void setdatAtual(LocalDateTime datAtual) {
-		this.dataAtual = datAtual;
+	public void setdataAtual(LocalDateTime dataAtual) {
+		this.dataAtual = dataAtual;
 	}
 
 
