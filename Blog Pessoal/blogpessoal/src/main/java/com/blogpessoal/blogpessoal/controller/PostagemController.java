@@ -32,6 +32,7 @@ public class PostagemController {
 	private PostagemRepository repository;
 	@Autowired
 	private TemaRepository temaRepository;
+	
 	@GetMapping
 	public ResponseEntity<List<Postagem>> GetAll(){
 		return ResponseEntity.ok(repository.findAll());
@@ -50,9 +51,11 @@ public class PostagemController {
 	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
-		if(temaRepository.existsById(postagem.getTema().getId()))
+		if(temaRepository.existsById(postagem.getTema().getId())) {
+			
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
 		
+		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 	
